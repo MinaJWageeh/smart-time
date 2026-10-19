@@ -1,0 +1,9 @@
+.inline-note-editor{min-height:280px;color:var(--notion-text);user-select:text}
+.inline-note-editor textarea{display:block;width:100%;resize:none;overflow:hidden;border:0;outline:0;background:transparent;color:inherit;font:inherit;font-size:14px;line-height:1.85;padding:8px 0;min-height:44px;box-sizing:border-box}
+.inline-note-editor textarea::placeholder{color:var(--notion-muted);opacity:.65}
+.inline-note-editor.has-images textarea:last-child{min-height:90px}
+.inline-sketch{position:relative;margin:10px 0 12px;max-width:640px;border:1px solid var(--notion-border);border-radius:9px;overflow:hidden;background:var(--notion-surface)}
+.inline-sketch>img{display:block;width:auto;max-width:100%;height:auto;max-height:540px;object-fit:contain;margin:auto}
+.inline-sketch figcaption{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-top:1px solid var(--notion-border);font-size:11px;color:var(--notion-muted)}
+.inline-sketch-actions{display:flex;gap:4px}.inline-sketch-actions :is(a,button){display:inline-flex;padding:5px;border-radius:4px;color:var(--notion-muted);cursor:pointer}.inline-sketch-actions :is(a,button):hover{background:var(--notion-border);color:var(--notion-text)}
+.inline-sketch-actions :is(a,button):focus-visible{outline:2px solid var(--notion-primary);outline-offset:1px}

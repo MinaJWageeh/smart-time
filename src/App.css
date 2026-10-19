@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --notion-navy: #0a1530;
+    --notion-primary: #5645d4;
+    --notion-primary-hover: #4534b3;
+    --notion-bg: #ffffff;
+    --notion-surface: #f7f6f3;
+    --notion-sidebar: #f1f0eb;
+    --notion-border: #e9e8e4;
+    --notion-border-dark: #d3d1cb;
+    --notion-text: #37352f;
+    --notion-muted: #787671;
+    --notion-tint-peach: #ffe8d4;
+    --notion-tint-mint: #d9f3e1;
+    --notion-tint-lavender: #e6e0f5;
+    --notion-tint-sky: #dcecfa;
+    --notion-tint-yellow: #fef7d6;
+  }
+
+  .dark {
+    --notion-navy: #070f24;
+    --notion-primary: #7b66ff;
+    --notion-primary-hover: #6750f0;
+    --notion-bg: #181818;
+    --notion-surface: #202020;
+    --notion-sidebar: #1d1d1d;
+    --notion-border: #2e2e2e;
+    --notion-border-dark: #3e3e3e;
+    --notion-text: #ebebeb;
+    --notion-muted: #9c9a95;
+    --notion-tint-peach: #3b281d;
+    --notion-tint-mint: #173822;
+    --notion-tint-lavender: #2f2545;
+    --notion-tint-sky: #193147;
+    --notion-tint-yellow: #3c3417;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--notion-text);
+    background-color: var(--notion-bg);
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    overflow: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .dark body {
+    color: #ebebeb;
+    background-color: #181818;
+  }
+
+  code, pre, .font-mono {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  input, textarea {
+    user-select: text;
+  }
+
+  /* Custom subtle scrollbars like Notion */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(120, 118, 113, 0.25);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 118, 113, 0.45);
+  }
+}
+
+
+@media print {
+  body {
+    overflow: visible;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
