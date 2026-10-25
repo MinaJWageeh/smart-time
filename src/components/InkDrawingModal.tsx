@@ -61,6 +61,30 @@ export const InkDrawingModal: React.FC<InkDrawingModalProps> = ({
     }
   }, [darkMode]);
 
+  // Keyboard shortcuts (Ctrl/Cmd+Z, Ctrl/Cmd+Y, Esc)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+      if (e.key === "Escape") {
+        onClose();
+      } else if (isCmdOrCtrl && (e.key === "z" || e.key === "Z")) {
+        if (e.shiftKey) {
+          handleRedo();
+        } else {
+          handleUndo();
+        }
+        e.preventDefault();
+      } else if (isCmdOrCtrl && (e.key === "y" || e.key === "Y")) {
+        handleRedo();
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, historyIndex, history]);
+
   // Initialize canvas
   useEffect(() => {
     if (!isOpen) return;
