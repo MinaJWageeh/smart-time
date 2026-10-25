@@ -42,15 +42,41 @@ export function searchableNoteText(content: string): string {
   return content.replace(/!\[[^\]\n]*\]\(data:image\/(?:png|jpeg|webp|gif);base64,[A-Za-z0-9+/=\r\n]+\)/gi, " ");
 }
 
-export function findInkBounds(pixels: Uint8ClampedArray, width: number, height: number, _background: readonly number[], padding: number) {
+export function findInkBounds(pixels: Uint8ClampedArray, width: number, height: number, background: readonly number[], padding: number) {
   let left = width, top = height, right = -1, bottom = -1;
-  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
-    const i = (y * width + x) * 4;
-    if (pixels[i + 3] > 16) {
-      left = Math.min(left, x); right = Math.max(right, x); top = Math.min(top, y); bottom = Math.max(bottom, y);
+  const hasBg = Boolean(background && background.length >= 3);
+  const bg0 = hasBg ? background[0] : 0;
+  const bg1 = hasBg ? background[1] : 0;
+  const bg2 = hasBg ? background[2] : 0;
+
+  for (let y = 0; y < height; y++) {
+    const rowOffset = y * width * 4;
+    for (let x = 0; x < width; x++) {
+      const i = rowOffset + (x << 2);
+      if (pixels[i + 3] > 16) {
+        if (
+          hasBg &&
+          Math.abs(pixels[i] - bg0) <= 16 &&
+          Math.abs(pixels[i + 1] - bg1) <= 16 &&
+          Math.abs(pixels[i + 2] - bg2) <= 16
+        ) {
+          continue;
+        }
+        if (x < left) left = x;
+        if (x > right) right = x;
+        if (y < top) top = y;
+        if (y > bottom) bottom = y;
+      }
     }
   }
+
   if (right < 0) return null;
-  const x = Math.max(0, left - padding), y = Math.max(0, top - padding);
-  return { x, y, width: Math.min(width, right + padding + 1) - x, height: Math.min(height, bottom + padding + 1) - y };
+  const x = Math.max(0, left - padding);
+  const y = Math.max(0, top - padding);
+  return {
+    x,
+    y,
+    width: Math.min(width, right + padding + 1) - x,
+    height: Math.min(height, bottom + padding + 1) - y,
+  };
 }
