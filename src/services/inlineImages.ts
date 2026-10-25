@@ -42,11 +42,16 @@ export function searchableNoteText(content: string): string {
   return content.replace(/!\[[^\]\n]*\]\(data:image\/(?:png|jpeg|webp|gif);base64,[A-Za-z0-9+/=\r\n]+\)/gi, " ");
 }
 
-export function findInkBounds(pixels: Uint8ClampedArray, width: number, height: number, _background: readonly number[], padding: number) {
+export function findInkBounds(pixels: Uint8ClampedArray, width: number, height: number, background: readonly number[], padding: number) {
   let left = width, top = height, right = -1, bottom = -1;
+  const hasBg = background && background.length >= 3;
   for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
     const i = (y * width + x) * 4;
-    if (pixels[i + 3] > 16) {
+    const alpha = pixels[i + 3];
+    if (alpha > 16) {
+      if (hasBg && Math.abs(pixels[i] - background[0]) <= 16 && Math.abs(pixels[i + 1] - background[1]) <= 16 && Math.abs(pixels[i + 2] - background[2]) <= 16) {
+        continue;
+      }
       left = Math.min(left, x); right = Math.max(right, x); top = Math.min(top, y); bottom = Math.max(bottom, y);
     }
   }
